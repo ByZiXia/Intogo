@@ -4,6 +4,9 @@ Intogo自动注射车
 
 ## 主要包括数据：
 
+| 总耗时	| 注射人数 | 注射剂量 | 注射间隔 |实际总药量 | 预测总药量	|  
+| 206.55| 26	  |  266.73  |  8.26   | 15189.39 | 14331.31    |
+
 <img width="983" alt="image" src="https://github.com/wang-zixia/Intogo/assets/153195196/72cac08a-ab51-471a-a8e0-bcd1a17f6fa6">
 
 >此处实际总药量及预测总药量均为从第一个病人打针时开始的总剂量并减去残留药量，既为最真实最理想的用药量。
@@ -25,50 +28,4 @@ Intogo自动注射车
 详细见附表2；
 
 ## python计算代码
-``` py
-importnumpy asnp
-
-
-defcalculate_initial_dose(D, N, total_time):
-    # 衰变常数
-    decay_constant = np.log(2) / 110
-
-    # 每个病人的注射间隔时间 (分钟)
-    delta_t = total_time / (N - 1)
-
-    # 计算每个时刻的药物量
-    injection_times = np.arange(N) * delta_t
-    doses = D * np.exp(decay_constant * injection_times)    # 修正衰减公式
-            # 此处“decay_constant”ChatGPT提示修正衰减公式，需要加上“-“，但是加上负号计算结果不准。
-
-    # 总药物量
-    total_dose = np.sum(doses)
-
-    returntotal_dose
-
-
-# 示例参数
-D = 266.85         # 每人药物剂量 (MBq)
-N = 30            # 注射人数
-total_time = 237      # 总耗时 (分钟)
-# 计算初始药物量
-initial_dose = calculate_initial_dose(D, N, total_time)
-print("需要准备的初始药物量：", initial_dose, "MBq")
-![image](https://github.com/wang-zixia/Intogo/assets/153195196/6c6020ed-5242-45f5-a685-be6f6fa52c7f)
-
-
-$$1. 衰变常数：
-λ=ln⁡(2)110\lambda = \frac{\ln(2)}{110}λ=110ln(2)
-	2. 每个病人的注射间隔时间：
-Δt=TN−1\Delta t = \frac{T}{N-1}Δt=N−1T
-	3. 每次注射的时间点：
-ti=i⋅Δt,其中i=0,1,2,…,N−1t_i = i \cdot \Delta t, \quad \text{其中} \quad i = 0, 1, 2, \ldots, N-1ti=i⋅Δt,其中i=0,1,2,…,N−1
-	4. 每次注射时的实际药物量：
-di=D⋅e−λtid_i = D \cdot e^{-\lambda t_i}di=D⋅e−λti
-	5. 总药物量：
-Dtotal=∑i=0N−1di=∑i=0N−1D⋅e−λi⋅ΔtD_{\text{total}} = \sum_{i=0}^{N-1} d_i = \sum_{i=0}^{N-1} D \cdot e^{-\lambda i \cdot \Delta t}Dtotal=i=0∑N−1di=i=0∑N−1D⋅e−λi⋅Δt
-将上述公式合并，得到总药物量的计算公式：
-Dtotal=D⋅∑i=0N−1e−λi⋅TN−1D_{\text{total}} = D \cdot \sum_{i=0}^{N-1} e^{-\lambda i \cdot \frac{T}{N-1}}Dtotal=D⋅i=0∑N−1e−λi⋅N−1T![image](https://github.com/wang-zixia/Intogo/assets/153195196/95f55b4b-6ef8-4962-a94b-a6767949a8eb)$$
-
-
-
+详细见forecast.py;
